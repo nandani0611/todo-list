@@ -1,0 +1,52 @@
+tasks = []
+
+# Load existing tasks from file
+try:
+    with open("tasks.txt", "r") as file:
+        tasks = [line.strip() for line in file]
+except FileNotFoundError:
+    pass  # No tasks yet
+
+while True:
+    print("\n1. View Tasks")
+    print("2. Add Task")
+    print("3. Remove Task")
+    print("4. Save & Exit")
+
+    choice = input("Enter your choice (1-4): ")
+
+    if choice == "1":
+        if not tasks:
+            print("No tasks.")
+        else:
+            for i, task in enumerate(tasks, 1):
+                print(f"{i}. {task}")
+
+    elif choice == "2":
+        task = input("Enter new task: ").strip()
+        if task:
+            tasks.append(task)
+            print("Task added.")
+
+    elif choice == "3":
+        for i, task in enumerate(tasks, 1):
+            print(f"{i}. {task}")
+        try:
+            num = int(input("Enter task number to remove: "))
+            if 1 <= num <= len(tasks):
+                removed = tasks.pop(num - 1)
+                print(f"Removed: {removed}")
+            else:
+                print("Invalid number.")
+        except:
+            print("Enter a number.")
+
+    elif choice == "4":
+        with open("tasks.txt", "w") as file:
+            for task in tasks:
+                file.write(task + "\n")
+        print("Tasks saved. Bye!")
+        break
+
+    else:
+        print("Choose a number from 1 to 4.")
